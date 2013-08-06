@@ -1,4 +1,4 @@
-/** vim: et:ts=4:sw=4:sts=4
+/*! vim: et:ts=4:sw=4:sts=4
  * @license RequireJS 2.1.8 Copyright (c) 2010-2012, The Dojo Foundation All Rights Reserved.
  * Available via the MIT or new BSD license.
  * see: http://github.com/jrburke/requirejs for details
@@ -15,7 +15,7 @@ var requirejs, require, define;
         version = '2.1.8',
         commentRegExp = /(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/mg,
         cjsRequireRegExp = /[^.]\s*require\s*\(\s*["']([^'"\s]+)["']\s*\)/g,
-        jsSuffixRegExp = /\.js$/,
+        jsSuffixRegExp = /\.(min\.js|js)$/,
         currDirRegExp = /^\.\//,
         op = Object.prototype,
         ostring = op.toString,
@@ -200,6 +200,7 @@ var requirejs, require, define;
                 //will run faster if there is no default.
                 waitSeconds: 7,
                 baseUrl: './',
+                defaultExt: '.js',
                 paths: {},
                 pkgs: {},
                 shim: {},
@@ -1609,7 +1610,7 @@ var requirejs, require, define;
 
                     //Join the path parts together, then figure out if baseUrl is needed.
                     url = syms.join('/');
-                    url += (ext || (/\?/.test(url) || skipExt ? '' : '.js'));
+                    url += (ext || (/\?/.test(url) || skipExt ? '' : config.defaultExt));
                     url = (url.charAt(0) === '/' || url.match(/^[\w\+\.\-]+:/) ? '' : config.baseUrl) + url;
                 }
 
@@ -1750,7 +1751,7 @@ var requirejs, require, define;
     req.version = version;
 
     //Used to filter out dependencies that are already paths.
-    req.jsExtRegExp = /^\/|:|\?|\.js$/;
+    req.jsExtRegExp = /^\/|:|\?|\.(min\.js|js)$/;
     req.isBrowser = isBrowser;
     s = req.s = {
         contexts: contexts,
